@@ -3,6 +3,7 @@ import { ValidationPipe, ValidationError, BadRequestException } from '@nestjs/co
 
 export const CustomValidationPipe = new ValidationPipe({
   whitelist: true,
+   transform: true, 
   exceptionFactory: (errors: ValidationError[]) => {
     const formattedErrors: Record<string, { messages: string[] }> = {};
 
