@@ -8,6 +8,7 @@ import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
 import { RequestModule } from './request/request.module';
 import { DetailModule } from './detail/detail.module';
+import { AttachementModule } from './attachement/attachement.module';
 
 @Module({
   imports: [
@@ -18,8 +19,9 @@ import { DetailModule } from './detail/detail.module';
     PermissionModule,
     RequestModule,
     DetailModule,
+    AttachementModule,
   ],
-  controllers: [AppController], // 👈 uniquement le controller propre à AppModule
-  providers: [AppService], // 👈 uniquement le provider propre à AppModule
+  controllers: [AppController],
+  providers: [AppService], 
 })
 export class AppModule {}
