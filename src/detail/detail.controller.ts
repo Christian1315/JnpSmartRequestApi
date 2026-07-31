@@ -30,7 +30,7 @@ export class DetailController {
     }
 
     // Retrieve detail via :id
-    @Get(':id')
+    @Get('comments/:id')
     retrieveDetail(@Param('id', ParseIntPipe) id: number) {
         return this.detailService.getOneDetail(id);
     }
@@ -42,7 +42,7 @@ export class DetailController {
     }
 
     // Update detail
-    @Put(':id')
+    @Put('comments/:id')
     updateDetail(
         @Req() req: Request,
         @Param('id', ParseIntPipe) id: number,
@@ -52,7 +52,7 @@ export class DetailController {
     }
 
     // Delete detail
-    @Delete(':id')
+    @Delete('comments/:id')
     deleteDetail(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
         return this.detailService.deleteDetail(req, id);
     }

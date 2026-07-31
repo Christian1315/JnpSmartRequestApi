@@ -37,7 +37,7 @@ export class DetailService {
 
     // Get details for a specific request
     async getDetailsByRequest(requestId: number) {
-        this.logger.log(`Récupération des détails de la requête ID : ${requestId}`);
+        this.logger.log(`Récupération des commentaires de la requête ID : ${requestId}`);
 
         const requestFound = await this.prisma.request.findFirst({
             where: { id: requestId, deletedAt: null },
@@ -59,7 +59,7 @@ export class DetailService {
 
     // Get a detail
     async getOneDetail(id: number) {
-        this.logger.log(`Début de récupération du détail d'ID : ${id}`);
+        this.logger.log(`Début de récupération du commentaire d'ID : ${id}`);
         const detail = await this.prisma.requestDetail.findFirst({
             where: { id, deletedAt: null },
             include: {
@@ -68,14 +68,14 @@ export class DetailService {
             },
         });
 
-        if (!detail) throw new NotFoundException('Détail non trouvé');
-        this.logger.log(`Détail trouvé : ${JSON.stringify(detail)}`);
+        if (!detail) throw new NotFoundException('commentaire non trouvé');
+        this.logger.log(`commentaire trouvé : ${JSON.stringify(detail)}`);
         return this.detailFormat(detail);
     }
 
     // Create a detail
     async createDetail(req: Rq,id:number, data: CreateDetailDto) {
-        this.logger.log(`Début d'insertion d'un détail`);
+        this.logger.log(`Début d'insertion d'un commentaire`);
 
         const result = await this.prisma.$transaction(async (tx) => {
             const connectedUser = req.user as any;
@@ -89,7 +89,7 @@ export class DetailService {
                 throw new NotFoundException("Cette requête n'existe pas, ou a été supprimée");
             }
 
-            // Création du détail
+            // Création du commentaire
             const newDetail = await tx.requestDetail.create({
                 data: {
                     ...data,
@@ -102,31 +102,31 @@ export class DetailService {
                 },
             });
 
-            this.logger.log('Détail inséré avec succès!');
+            this.logger.log('commentaire inséré avec succès!');
             return newDetail;
         });
 
-        return { message: 'Détail inséré avec succès!', detail: this.detailFormat(result) };
+        return { message: 'commentaire inséré avec succès!', detail: this.detailFormat(result) };
     }
 
     // Update a detail
     async updateDetail(req: Rq, id: number, data: CreateDetailDto) {
-        this.logger.log(`Début de modification du détail d'ID : ${id}`);
+        this.logger.log(`Début de modification du commentaire d'ID : ${id}`);
         this.logger.log(`Données reçues: ${JSON.stringify(data)}`);
 
         const result = await this.prisma.$transaction(async (tx) => {
             const connectedUser = req.user as any;
             this.logger.log(`User connecté: ${JSON.stringify(connectedUser)}`);
 
-            // Recherche du détail
+            // Recherche du commentaire
             const detailFound = await tx.requestDetail.findFirst({
                 where: { id, deletedAt: null },
             });
             if (!detailFound) {
-                throw new NotFoundException("Ce détail n'existe pas, ou a été supprimé");
+                throw new NotFoundException("Ce commentaire n'existe pas, ou a été supprimé");
             }
 
-            // Modification du détail
+            // Modification du commentaire
             const updatedDetail = await tx.requestDetail.update({
                 where: { id },
                 data,
@@ -136,16 +136,16 @@ export class DetailService {
                 },
             });
 
-            this.logger.log('Détail modifié avec succès!');
+            this.logger.log('commentaire modifié avec succès!');
             return updatedDetail;
         });
 
-        return { message: 'Détail modifié avec succès!', detail: this.detailFormat(result) };
+        return { message: 'commentaire modifié avec succès!', detail: this.detailFormat(result) };
     }
 
     // Delete a detail (soft delete)
     async deleteDetail(req: Rq, id: number) {
-        this.logger.log(`Début de suppression du détail d'ID : ${id}`);
+        this.logger.log(`Début de suppression du commentaire d'ID : ${id}`);
 
         const result = await this.prisma.$transaction(async (tx) => {
             const connectedUser = req.user as any;
@@ -154,8 +154,8 @@ export class DetailService {
                 where: { id, deletedAt: null },
             });
 
-            if (!detail) throw new NotFoundException('Détail non trouvé');
-            this.logger.log(`Détail trouvé : ${JSON.stringify(detail)}`);
+            if (!detail) throw new NotFoundException('commentaire non trouvé');
+            this.logger.log(`commentaire trouvé : ${JSON.stringify(detail)}`);
 
             const deletedDetail = await tx.requestDetail.update({
                 where: { id },
@@ -169,6 +169,6 @@ export class DetailService {
             return deletedDetail;
         });
 
-        return { message: 'Détail supprimé avec succès', detail: result };
+        return { message: 'commentaire supprimé avec succès', detail: result };
     }
 }
