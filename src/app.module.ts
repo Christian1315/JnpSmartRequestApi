@@ -12,6 +12,7 @@ import { AttachementModule } from './attachement/attachement.module';
 import { CategoryModule } from './category/category.module';
 import { SiteModule } from './site/site.module';
 import { StatutModule } from './statut/statut.module';
+import { PriorityModule } from './priority/priority.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { StatutModule } from './statut/statut.module';
     CategoryModule,
     SiteModule,
     StatutModule,
+    PriorityModule,
   ],
   controllers: [AppController],
   providers: [AppService], 

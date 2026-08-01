@@ -35,14 +35,14 @@ export class SiteService {
             },
         });
 
-        if (!site) throw new NotFoundException('catégorie non trouve');
-        this.logger.log(`Catégorie trouve : ${JSON.stringify(site)}`);
+        if (!site) throw new NotFoundException('site non trouve');
+        this.logger.log(`site trouve : ${JSON.stringify(site)}`);
         return site;
     }
 
     // Create a catégory
     async createSite(req: Rq, data: CreateSiteDto) {
-        this.logger.log(`Début d'insertion d'une catégorie`);
+        this.logger.log(`Début d'insertion d'une site`);
 
         const result = await this.prisma.$transaction(async (tx) => {
             const connectedUser = req.user as any;
@@ -53,10 +53,10 @@ export class SiteService {
                 where: { name:data.name, deletedAt: null },
             });
             if (SiteFound) {
-                throw new BadRequestException("Cette catégorie existe déjà");
+                throw new BadRequestException("ce site existe déjà");
             }
 
-            // Création de la catégorie
+            // Création de la site
             const newSite = await tx.site.create({
                 data: {
                     ...data,
@@ -67,16 +67,16 @@ export class SiteService {
                 },
             });
 
-            this.logger.log('Catégorie insére avec succès!');
+            this.logger.log('site insére avec succès!');
             return newSite;
         });
 
-        return { message: 'Catégorie', site: result };
+        return { message: 'site', site: result };
     }
 
     // Update a site
     async updateSite(req: Rq, id: number, data: CreateSiteDto) {
-        this.logger.log(`Début de modification de la catégorie d'ID : ${id}`);
+        this.logger.log(`Début de modification de la site d'ID : ${id}`);
         this.logger.log(`Donnes reçues: ${JSON.stringify(data)}`);
 
         const result = await this.prisma.$transaction(async (tx) => {
@@ -88,7 +88,7 @@ export class SiteService {
                 where: { id, deletedAt: null },
             });
             if (!site) {
-                throw new NotFoundException("Cette catégorie n'existe pas, ou a été supprime");
+                throw new NotFoundException("ce site n'existe pas, ou a été supprime");
             }
 
             // Modification du commentaire
@@ -104,7 +104,7 @@ export class SiteService {
             return updateSite;
         });
 
-        return { message: 'Catégorie modifie avec succès!', site: result };
+        return { message: 'site modifie avec succès!', site: result };
     }
 
     // Delete a site 
@@ -118,8 +118,8 @@ export class SiteService {
                 where: { id, deletedAt: null },
             });
 
-            if (!site) throw new NotFoundException('catégorie non trouvé');
-            this.logger.log(`catégorie trouvé : ${JSON.stringify(site)}`);
+            if (!site) throw new NotFoundException('site non trouvé');
+            this.logger.log(`site trouvé : ${JSON.stringify(site)}`);
 
             const deletedSite = await tx.site.update({
                 where: { id },
@@ -133,6 +133,6 @@ export class SiteService {
             return deletedSite;
         });
 
-        return { message: 'Catégorie supprime avec succès', site: result };
+        return { message: 'site supprime avec succès', site: result };
     }
 }
