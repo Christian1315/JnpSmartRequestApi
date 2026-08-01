@@ -9,6 +9,9 @@ import { PermissionModule } from './permission/permission.module';
 import { RequestModule } from './request/request.module';
 import { DetailModule } from './detail/detail.module';
 import { AttachementModule } from './attachement/attachement.module';
+import { CategoryModule } from './category/category.module';
+import { SiteModule } from './site/site.module';
+import { StatutModule } from './statut/statut.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { AttachementModule } from './attachement/attachement.module';
     RequestModule,
     DetailModule,
     AttachementModule,
+    CategoryModule,
+    SiteModule,
+    StatutModule,
   ],
   controllers: [AppController],
   providers: [AppService], 

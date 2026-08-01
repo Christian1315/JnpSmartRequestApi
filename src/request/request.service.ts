@@ -126,6 +126,7 @@ export class RequestService {
                 data: {
                     ...data,
                     date:new Date(data.date),
+                    statut_id: data.statut_id ?? 1, // si non fourni, on met le statut par défaut (1)
                     document: documentPath,
                     demandeur_id: connectedUser?.sub,
                     createdById: connectedUser?.sub,

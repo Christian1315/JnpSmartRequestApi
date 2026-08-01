@@ -22,6 +22,7 @@ export class AuthController {
         const accessTokenTtl = parseInt(process.env.JWT_EXPIRES_IN ?? '1800', 10); // secondes
         const refreshTokenTtl = parseInt(process.env.JWT_REFRESH_EXPIRES_IN ?? '86400', 10); // secondes
 
+        // access token cookie,non accessible côté client pour des raisons de sécurité
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: isProd,
@@ -29,6 +30,15 @@ export class AuthController {
             maxAge: accessTokenTtl * 1000, // 30 min en ms
         });
 
+        // isLoggedIn cookie, accessible côté client pour savoir si l'utilisateur est connecté
+        res.cookie('isLoggedIn', 'true', {
+            httpOnly: false,
+            secure: isProd,
+            sameSite: isProd ? 'none' : 'lax',
+            maxAge: accessTokenTtl * 1000, // 30 min en ms
+        });
+
+        // refresh token cookie,non accessible côté client pour des raisons de sécurité
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: isProd,

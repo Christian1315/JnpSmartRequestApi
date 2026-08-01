@@ -135,6 +135,7 @@ export class AuthService {
     async logout(res:Response){
         this.authLoggerService.log("Début de déconnexion...")
         res.clearCookie('accessToken');
+        res.clearCookie('isLoggedIn');
         res.clearCookie('refreshToken');
         return { message: 'Déconnexion réussie' };
     }
