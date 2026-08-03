@@ -47,13 +47,19 @@ export class RequestController {
 
     // Get requests
     @Get()
-    getUsers() {
+    getRequests() {
         return this.requestService.getAllRequests();
+    }
+
+    // Get requests by statut_id
+    @Get("statuts/:statut_id")
+    getRequestByStatus(@Param('statut_id', ParseIntPipe) statut_id: number) {
+        return this.requestService.getAllRequestByStatus(statut_id);
     }
 
     // Retrieve request via :id
     @Get(':id')
-    retrieveUser(@Param('id', ParseIntPipe) id: number) {
+    retrieveRequest(@Param('id', ParseIntPipe) id: number) {
         return this.requestService.getOneRequest(id);
     }
 
@@ -82,7 +88,7 @@ export class RequestController {
 
     // delete request
     @Delete(':id')
-    deleteUser(@Req() req:Request, @Param('id', ParseIntPipe) id: number) {
+    deleteRequest(@Req() req:Request, @Param('id', ParseIntPipe) id: number) {
         return this.requestService.deleteRequete(req,id);
     }
 }

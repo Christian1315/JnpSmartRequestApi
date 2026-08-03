@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req } from '@nestjs/common';
 import { CreateUserDto } from "./dto/create-user-dto";
+import { UpdateUserDto } from './dto/update-user-dto'; 
 import { UserService } from './user.service';
 import { Request } from 'express';
 
@@ -27,8 +28,8 @@ export class UserController {
 
     // Update user
     @Put(":id")
-    updateUser(@Req() req:Request, @Param("id",ParseIntPipe) id:number, @Body() CreateUserDto: CreateUserDto) {
-        return this.userService.updateUser(req,id,CreateUserDto)
+    updateUser(@Req() req:Request, @Param("id",ParseIntPipe) id:number, @Body() UpdateUserDto: UpdateUserDto) {
+        return this.userService.updateUser(req,id,UpdateUserDto)
     }
 
     // delete User

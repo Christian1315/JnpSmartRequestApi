@@ -13,6 +13,7 @@ import { CategoryModule } from './category/category.module';
 import { SiteModule } from './site/site.module';
 import { StatutModule } from './statut/statut.module';
 import { PriorityModule } from './priority/priority.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PriorityModule } from './priority/priority.module';
     SiteModule,
     StatutModule,
     PriorityModule,
+    AiModule
   ],
   controllers: [AppController],
   providers: [AppService], 

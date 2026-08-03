@@ -37,6 +37,7 @@ export class AuthService {
             where: { email, deletedAt: null },
             include:{
                 role:{
+                    where:{deletedAt:null},
                     include:{
                         permissions:true
                     }

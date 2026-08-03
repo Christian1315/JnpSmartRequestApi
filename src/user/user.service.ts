@@ -13,6 +13,15 @@ export interface User {
     confirm_password:string,
 }
 
+export interface UpdateUserPayload {
+    fullname?: string;
+    phone?: string;
+    email?: string;
+    roleId?: number;
+    password?: string;
+    confirm_password?: string;
+}
+
 @Injectable()
 export class UserService {
     constructor(
@@ -118,7 +127,7 @@ export class UserService {
     }
 
     // Update a user
-    async updateUser(req:Request ,id:number,data:User){
+    async updateUser(req:Request ,id:number,data:UpdateUserPayload){
         this.logger.log(`Début de modification du user d'ID : ${id}`)
         this.logger.log(`ID utilisateur à exclure: ${id}, type: ${typeof id}`);
         this.logger.log(`Données reçues: ${JSON.stringify(data)}`);

@@ -2,10 +2,6 @@ import { IsString, IsInt, IsNotEmpty, IsOptional, IsDateString } from 'class-val
 import { Type } from 'class-transformer';
 
 export class CreateRequestDto {
-    // @IsNotEmpty({ message: 'Le demandeur est requis' })
-    // @Type(() => Number)
-    // @IsInt({ message: 'Le demandeur doit être un entier.' })
-    // demandeur_id!: number;
 
     @IsNotEmpty({ message: 'La catégorie est requise' })
     @Type(() => Number)

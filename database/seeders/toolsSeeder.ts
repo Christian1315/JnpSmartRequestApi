@@ -31,8 +31,14 @@ export class SeedTools {
             ],
 
             categories: [
-                { name: 'Catégorie 1', description: "Demande de la catégorie 1" },
-                { name: 'Catégorie 2', description: "Demande de la catégorie 2" },
+                { name: 'Informatique', description: "Demande de la Informatique" },
+                { name: 'Maintenance/Technique', description: "Demande de la Maintenance/Technique" },
+                { name: 'Logistique/Fournitures', description: "Demande de la Logistique/Fournitures" },
+                { name: 'RH', description: "Demande de la RH" },
+                { name: 'Sécurité', description: "Demande de la Sécurité" },
+                { name: 'Finance/Comptabilité', description: "Demande de la Finance/Comptabilité" },
+                { name: 'Communication', description: "Demande de la Communication" },
+                { name: 'Autre', description: "Les Autres" },
             ],
 
             priorities: [

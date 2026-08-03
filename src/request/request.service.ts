@@ -57,6 +57,22 @@ export class RequestService {
         return requests.map(this.requestFormat);
     }
 
+    // Get BY STATUS ID
+    async getAllRequestByStatus(statut_id:number) {
+        this.logger.log('Request récupérées par statut avec succès!!');
+        const requests = await this.prisma.request.findMany({
+            where: { deletedAt: null,statut_id },
+            include: {
+                demandeur: true,
+                category: true,
+                priority: true,
+                site: true,
+                statut: true,
+            },
+        });
+        return requests.map(this.requestFormat);
+    }
+
     // Get a request
     async getOneRequest(id: number) {
         this.logger.log(`Début de recuperation de la requete d'ID : ${id}`);

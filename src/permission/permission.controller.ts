@@ -3,7 +3,7 @@ import { CreatePermissionDto } from "./dto/create-permission-dto";
 import { PermissionService } from './permission.service';
 import { Request } from 'express';
 
-@Controller('api/permissions')
+@Controller('permissions')
 export class PermissionController {
     constructor(private readonly permissionService:PermissionService) { }
 
