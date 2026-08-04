@@ -26,9 +26,14 @@ export class SeedPermissions {
             ...createCrudPermissions('sites', 'site'),
             ...createCrudPermissions('statuts', 'statut'),
         ];
+        
+        // TRUNCATE avec RESTART IDENTITY : vide la table ET remet la séquence auto-increment à 1
+        await this.prisma.$executeRawUnsafe(
+            `TRUNCATE TABLE "permissions" RESTART IDENTITY CASCADE;`
+        );
 
-        // Supprimer les permissions existantes pour éviter les doublons
-        await this.prisma.permission.deleteMany();
+        // // Supprimer les permissions existantes pour éviter les doublons
+        // await this.prisma.permission.deleteMany();
     
         // insertions
         await this.prisma.permission.createMany({

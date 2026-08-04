@@ -2,11 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
-export class SeedRoles{
-    constructor(private readonly prisma:PrismaService){}
+export class SeedRoles {
+    constructor(private readonly prisma: PrismaService) {}
 
-    async init(){
-        const roles = [
+    async init() {
+
+        const data = [
             {
                 name: 'Super Administrateur',
                 description: 'Administrateur du système avec tous les privilèges'
@@ -25,14 +26,17 @@ export class SeedRoles{
             }
         ];
 
-        // Supprimer les rôles existants pour éviter les doublons
-        await this.prisma.role.deleteMany();
-    
+        // TRUNCATE avec RESTART IDENTITY : vide la table ET remet la séquence auto-increment à 1
+        // CASCADE : nécessaire si d'autres tables (users, role_permissions...) référencent roles via FK
+        await this.prisma.$executeRawUnsafe(
+            `TRUNCATE TABLE "roles" RESTART IDENTITY CASCADE;`
+        );
+
         // insertions
         await this.prisma.role.createMany({
-            data: roles
+            data: data
         });
-    
-        console.log('Rôles inserés avec succès:.');
+
+        console.log('Rôles insérés avec succès.');
     }
-};
+}

@@ -48,13 +48,28 @@ export class SeedTools {
             ],
         };
         
-        // Supprimer les outils existants pour éviter les doublons
-        await Promise.all([
-            this.prisma.site.deleteMany(),
-            this.prisma.categorie.deleteMany(),
-            this.prisma.statut.deleteMany(),
-            this.prisma.prioritie.deleteMany(),
-        ]);
+        
+        // TRUNCATE avec RESTART IDENTITY : vide la table ET remet la séquence auto-increment à 1
+        await this.prisma.$executeRawUnsafe(
+            `TRUNCATE TABLE "sites" RESTART IDENTITY CASCADE;`
+        );
+         await this.prisma.$executeRawUnsafe(
+            `TRUNCATE TABLE "categories" RESTART IDENTITY CASCADE;`
+        );
+         await this.prisma.$executeRawUnsafe(
+            `TRUNCATE TABLE "statuts" RESTART IDENTITY CASCADE;`
+        );
+         await this.prisma.$executeRawUnsafe(
+            `TRUNCATE TABLE "priorities" RESTART IDENTITY CASCADE;`
+        );
+
+        // // Supprimer les outils existants pour éviter les doublons
+        // await Promise.all([
+        //     this.prisma.site.deleteMany(),
+        //     this.prisma.categorie.deleteMany(),
+        //     this.prisma.statut.deleteMany(),
+        //     this.prisma.prioritie.deleteMany(),
+        // ]);
 
         // Insertions
         await Promise.all([
