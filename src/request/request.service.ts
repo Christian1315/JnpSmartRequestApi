@@ -7,6 +7,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const UPLOADS_DIR = path.join(process.cwd(), 'uploads', 'documents');
+ // Dans un fichier constants/roles.ts par exemple
+export const PRIVILEGED_ROLES = [1, 2, 4]; // Admin, Responsable, ...
 
 @Injectable()
 export class RequestService {
@@ -41,11 +43,23 @@ export class RequestService {
         };
     };
 
-    // Get all request
-    async getAllRequests() {
+   
+    async getAllRequests(req) {
         this.logger.log('Request récupérées avec succès!!');
-        const requests = await this.prisma.request.findMany({
-            where: { deletedAt: null },
+
+        // Dans ton service
+        const connectedUser = req.user;
+        const isAdminOrRespo = PRIVILEGED_ROLES.includes(connectedUser?.roleId);
+        console.log("connectedUser :",connectedUser)
+
+        const datas = await this.prisma.request.findMany({
+            where: {
+                deletedAt: null,
+                // si ce n'est pas un admin, on ne garde que ses propres requests
+                ...(!isAdminOrRespo && connectedUser?.sub
+                    ? { createdById: connectedUser.sub }
+                    : {}),
+            },
             include: {
                 demandeur: true,
                 category: true,
@@ -54,7 +68,10 @@ export class RequestService {
                 statut: true,
             },
         });
-        return requests.map(this.requestFormat);
+
+        console.log("Les demandes recuperées:",datas.map((d)=>({"createdById": d.createdById})))
+
+        return datas.map(this.requestFormat);
     }
 
     // Get BY STATUS ID

@@ -50,18 +50,25 @@ export class SeedTools {
         
         
         // TRUNCATE avec RESTART IDENTITY : vide la table ET remet la séquence auto-increment à 1
-        await this.prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "sites" RESTART IDENTITY CASCADE;`
-        );
-         await this.prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "categories" RESTART IDENTITY CASCADE;`
-        );
-         await this.prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "statuts" RESTART IDENTITY CASCADE;`
-        );
-         await this.prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "priorities" RESTART IDENTITY CASCADE;`
-        );
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 0;`);
+        await this.prisma.$executeRawUnsafe(`TRUNCATE TABLE sites;`);
+        await this.prisma.$executeRawUnsafe(`TRUNCATE TABLE categories;`);
+        await this.prisma.$executeRawUnsafe(`TRUNCATE TABLE statuts;`);
+        await this.prisma.$executeRawUnsafe(`TRUNCATE TABLE priorities;`);
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 1;`);
+
+        // await this.prisma.$executeRawUnsafe(
+        //     `TRUNCATE TABLE "sites" RESTART IDENTITY CASCADE;`
+        // );
+        //  await this.prisma.$executeRawUnsafe(
+        //     `TRUNCATE TABLE "categories" RESTART IDENTITY CASCADE;`
+        // );
+        //  await this.prisma.$executeRawUnsafe(
+        //     `TRUNCATE TABLE "statuts" RESTART IDENTITY CASCADE;`
+        // );
+        //  await this.prisma.$executeRawUnsafe(
+        //     `TRUNCATE TABLE "priorities" RESTART IDENTITY CASCADE;`
+        // );
 
         // // Supprimer les outils existants pour éviter les doublons
         // await Promise.all([

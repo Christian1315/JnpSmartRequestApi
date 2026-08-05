@@ -27,10 +27,16 @@ export class SeedRoles {
         ];
 
         // TRUNCATE avec RESTART IDENTITY : vide la table ET remet la séquence auto-increment à 1
-        // CASCADE : nécessaire si d'autres tables (users, role_permissions...) référencent roles via FK
-        await this.prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "roles" RESTART IDENTITY CASCADE;`
-        );
+        
+
+        // rolesSeeder.ts
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 0;`);
+        await this.prisma.$executeRawUnsafe(`TRUNCATE TABLE roles;`);
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 1;`);
+
+        // await this.prisma.$executeRawUnsafe(
+        //     `TRUNCATE TABLE "roles" RESTART IDENTITY CASCADE;`
+        // );
 
         // insertions
         await this.prisma.role.createMany({

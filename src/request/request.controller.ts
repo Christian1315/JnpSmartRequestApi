@@ -47,8 +47,8 @@ export class RequestController {
 
     // Get requests
     @Get()
-    getRequests() {
-        return this.requestService.getAllRequests();
+    getRequests(@Req() req: Request) {
+        return this.requestService.getAllRequests(req);
     }
 
     // Get requests by statut_id

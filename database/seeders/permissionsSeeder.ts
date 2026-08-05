@@ -28,9 +28,13 @@ export class SeedPermissions {
         ];
         
         // TRUNCATE avec RESTART IDENTITY : vide la table ET remet la séquence auto-increment à 1
-        await this.prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "permissions" RESTART IDENTITY CASCADE;`
-        );
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 0;`);
+        await this.prisma.$executeRawUnsafe(`TRUNCATE TABLE permissions;`);
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 1;`);
+
+        // await this.prisma.$executeRawUnsafe(
+        //     `TRUNCATE TABLE "permissions" RESTART IDENTITY CASCADE;`
+        // );
 
         // // Supprimer les permissions existantes pour éviter les doublons
         // await this.prisma.permission.deleteMany();

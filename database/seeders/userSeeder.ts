@@ -20,6 +20,7 @@ export class UserSeeders {
             {
                 fullname: 'Super administrateur',
                 email: "admin@gmail.com",
+                phone:"0156854397",
                 password: await bcrypt.hash('admin@2026', 10),
                 roleId: adminRole.id,
             },
@@ -27,9 +28,13 @@ export class UserSeeders {
 
 
         // TRUNCATE avec RESTART IDENTITY : vide la table ET remet la séquence auto-increment à 1
-        await this.prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "users" RESTART IDENTITY CASCADE;`
-        );
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 0;`);
+        await this.prisma.$executeRawUnsafe(`TRUNCATE TABLE users;`);
+        await this.prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 1;`);
+        
+        // await this.prisma.$executeRawUnsafe(
+        //     `TRUNCATE TABLE "users" RESTART IDENTITY CASCADE;`
+        // );
 
         // // Supprimer les users existants pour éviter les doublons
         // await this.prisma.user.deleteMany();
